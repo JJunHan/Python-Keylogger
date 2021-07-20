@@ -3,6 +3,8 @@
 > - Using Pyhook to implement a keylogger that tracks keystrokes and records them in a text file.
 > - Sends an email containing the contents of the above text file every X minutes (currently 2 minutes)
 
+![sample](sample.png)
+
 ## TODO
 
 - [x] Send via email
